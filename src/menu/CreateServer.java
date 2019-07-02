@@ -155,12 +155,12 @@ public class CreateServer extends Application
 
     private void loadImage()
     {
-        strongholdImg = new Image("/StrongholdCreateServerImage.jpg");
+        strongholdImg = new Image("/menu/StrongholdCreateServerImage.jpg");
     }
 
     private void loadMusic()
     {
-        strongholdTrk = new Media(getClass().getResource("/StrongholdCreateServerTrack.mp3").toString());
+        strongholdTrk = new Media(getClass().getResource("/menu/StrongholdCreateServerTrack.mp3").toString());
     }
 
     public static void main(String[] args)

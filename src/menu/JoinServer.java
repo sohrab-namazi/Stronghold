@@ -242,12 +242,12 @@ public class JoinServer extends Application
 
     private void loadImage()
     {
-        strongholdImg = new Image("/StrongholdJoinServerImage.jpg");
+        strongholdImg = new Image("/menu/StrongholdJoinServerImage.jpg");
     }
 
     private void loadMusic()
     {
-        strongholdTrk = new Media(getClass().getResource("/StrongholdJoinServerTrack.mp3").toString());
+        strongholdTrk = new Media(getClass().getResource("/menu/StrongholdJoinServerTrack.mp3").toString());
     }
 
     public static void main(String[] args)

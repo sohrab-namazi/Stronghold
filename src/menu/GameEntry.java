@@ -49,7 +49,8 @@ public class GameEntry extends Application
         btnCS.setOnAction((ActionEvent event) -> {
             mediaPlayer.stop();
             CreateServer createServer = new CreateServer();
-            createServer.start(stage);
+            createServer.
+                    start(stage);
         });
         btnJS.setOnAction((ActionEvent event) -> {
             mediaPlayer.stop();
@@ -92,12 +93,12 @@ public class GameEntry extends Application
 
     private void loadImage()
     {
-        strongholdImg = new Image("/StrongholdGameEntryImage.jpg");
+            strongholdImg = new Image("/menu/StrongholdGameEntryImage.jpg");
     }
 
     private void loadMusic()
     {
-        strongholdTrk = new Media(getClass().getResource("/StrongholdGameEntryTrack.mp3").toString());
+        strongholdTrk = new Media(getClass().getResource("/menu/StrongholdGameEntryTrack.mp3").toString());
     }
 
     public static void main(String[] args)
