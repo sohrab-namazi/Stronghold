@@ -12,6 +12,10 @@ import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import network.ClientHandler;
+import network.Server;
+
+import java.io.IOException;
 
 public class GameEntry extends Application
 {
@@ -25,6 +29,7 @@ public class GameEntry extends Application
     {
         initUI(stage);
     }
+
 
     private void initUI(Stage stage)
     {
@@ -46,11 +51,11 @@ public class GameEntry extends Application
         Tooltip.install(btnJS, btnJSTip);
 
         // Setting actions of buttons.
-        btnCS.setOnAction((ActionEvent event) -> {
+        btnCS.setOnAction((ActionEvent event) ->
+        {
             mediaPlayer.stop();
             CreateServer createServer = new CreateServer();
-            createServer.
-                    start(stage);
+            createServer.start(stage);
         });
         btnJS.setOnAction((ActionEvent event) -> {
             mediaPlayer.stop();
@@ -98,7 +103,7 @@ public class GameEntry extends Application
 
     private void loadMusic()
     {
-        strongholdTrk = new Media(getClass().getResource("/menu/StrongholdGameEntryTrack.mp3").toString());
+            strongholdTrk = new Media(getClass().getResource("/menu/StrongholdGameEntryTrack.mp3").toString());
     }
 
     public static void main(String[] args)

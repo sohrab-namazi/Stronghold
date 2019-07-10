@@ -1,6 +1,7 @@
 package building;
 import level.Level;
 import network.Client;
+import network.ClientHandler;
 
 public abstract class Building
 {
@@ -9,7 +10,7 @@ public abstract class Building
    public int foodRate;
    public int coinRate;
    public boolean isDestroyed;
-   public Client client;
+   public ClientHandler client;
 
 
     public void setDestroyed(boolean destroyed)

@@ -9,7 +9,7 @@ import java.awt.*;
 
 public class Palace extends Building
 {
-    public Client client;
+    public ClientHandler client;
     public Palace()
     {
 

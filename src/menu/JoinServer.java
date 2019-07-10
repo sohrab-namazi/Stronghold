@@ -16,6 +16,16 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
+import network.Client;
+import network.ClientHandler;
+import network.Server;
+
+import java.io.DataInputStream;
+import java.io.IOException;
+import java.net.InetAddress;
+import java.net.Socket;
+import java.net.UnknownHostException;
+import java.util.ArrayList;
 
 public class JoinServer extends Application
 {
@@ -23,6 +33,8 @@ public class JoinServer extends Application
     private Image strongholdImg;
     private MediaPlayer mediaPlayer;
     private Media strongholdTrk;
+    static DataInputStream in;
+  //  public static ArrayList<ClientHandler> clients = new ArrayList<>();
 
     @Override
     public void start(Stage stage)
@@ -59,7 +71,9 @@ public class JoinServer extends Application
         {
             if (!(txtFld2.getText().equals("")))
             {
-                if (txtFld1.getText().equals("192.168.1.255"))
+                String name = txtFld2.getText();
+                System.out.println((CreateServer.ip));
+                if (txtFld1.getText().equals(CreateServer.ip))
                 {
                     // Creating a stage for error.
                     Stage stageS = new Stage();
@@ -80,8 +94,35 @@ public class JoinServer extends Application
                     btnNo.setPrefWidth(80);
 
                     // Setting buttons actions.
-                    btnYes.setOnAction((ActionEvent e) -> {
+                    btnYes.setOnAction((ActionEvent e) ->
+                    {
+                            try
+                            {
+                                String ip = in.readUTF();
+                                System.out.println(ip);
+                                Socket socket = new Socket(CreateServer.ip, 8888);
+                                Client client = new Client(name, socket);
+                                ClientHandler clientHandler = new ClientHandler(client);
+                                System.out.println(clientHandler.name);
+                                CreateServer.clients.execute(clientHandler);
+                                stage.close();
+                                //game should be played
+                            }
+                            catch (IOException r)
+                            {
+                                r.printStackTrace();
+                            }
+                            stageS.close();
+
+
+                     //   CreateServer.flag = false;
+                        //enter game stage
+//                        for(ClientHandler client : CreateServer.clients)
+//                        {
+//                            new Thread(client).start();
+//                        }
                         mediaPlayer.stop();
+
                     });
                     btnNo.setOnAction((ActionEvent e) -> {
                         stageS.close();

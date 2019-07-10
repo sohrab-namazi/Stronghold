@@ -1,13 +1,14 @@
 package human;
 
 import network.Client;
+import network.ClientHandler;
 
 public class Peasant
 {
    public int health;
    private boolean isDead;
    public int foodRate;
-   public Client client;
+   public ClientHandler client;
    public int x;
    public int y;
 

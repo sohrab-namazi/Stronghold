@@ -16,13 +16,37 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
+import network.Client;
+import network.ClientHandler;
+
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.InetAddress;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.net.URL;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class CreateServer extends Application
 {
+    static String name;
     private ImageView imageView;
     private Image strongholdImg;
     private MediaPlayer mediaPlayer;
     private Media strongholdTrk;
+    static DataOutputStream out;
+    static ServerSocket serverSocket;
+    static Socket socket;
+    public static InetAddress ip;
+    static ExecutorService clients = Executors.newFixedThreadPool(2);
+  //  public static ArrayList<ClientHandler> clients = new ArrayList<>();
+   // static boolean flag = true;
+    Stage waitingStage;
+
+
 
     @Override
     public void start(Stage stage)
@@ -44,6 +68,7 @@ public class CreateServer extends Application
         Button btnBack = new Button("_Back");
         Button btnQuit = new Button("_Quit");
 
+
         // Setting label font and color.
         lbl.setFont(Font.font("Serif", FontWeight.BOLD, 20));
         lbl.setTextFill(Color.WHITE);
@@ -56,11 +81,48 @@ public class CreateServer extends Application
         txtFld2.setPrefWidth(120);
 
         // Setting actions of buttons.
-        btnGIP.setOnAction((ActionEvent event) -> {txtFld1.setText("192.168.1.255");});
-        btnSG.setOnAction((ActionEvent event) -> {
+        btnGIP.setOnAction((ActionEvent event) ->
+        {
+
+            try {
+                ip = InetAddress.getLocalHost();
+                txtFld1.setText(String.valueOf(ip));
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+
+        });
+        btnSG.setOnAction((ActionEvent event) ->
+        {
             if (!(txtFld2.getText().equals("")))
             {
+                //i have put loop because maybe later we wanna increase the participants number
                 mediaPlayer.stop();
+                name = txtFld2.getText();
+                //make this stage more appropriate please :)
+                waitingStage = new Stage();
+                GridPane layout = new GridPane();
+                Label label = new Label("Waiting for other player(s)");
+                layout.getChildren().addAll(label);
+                Scene scene = new Scene(layout);
+                waitingStage.setScene(scene);
+                waitingStage.setResizable(false);
+                waitingStage.setTitle("Waiting Room");
+                waitingStage.show();
+                try
+                {
+                    socket = new Socket(ip, 8888);
+                    out.writeUTF(String.valueOf(ip));
+                }
+                catch (IOException e)
+                {
+                    e.printStackTrace();
+                }
+
+
+
             }
 
             // if username is not entered.
@@ -83,7 +145,8 @@ public class CreateServer extends Application
                 secondaryBtnOk.setPrefWidth(80);
 
                 // Setting button action.
-                secondaryBtnOk.setOnAction((ActionEvent e) -> {
+                secondaryBtnOk.setOnAction((ActionEvent e) ->
+                {
                     stageUNF.close();
                 });
 
@@ -106,7 +169,8 @@ public class CreateServer extends Application
                 stageUNF.show();
             }
         });
-        btnBack.setOnAction((ActionEvent event) -> {
+        btnBack.setOnAction((ActionEvent event) ->
+        {
             mediaPlayer.stop();
             GameEntry gameEntry = new GameEntry();
             gameEntry.start(stage);
@@ -165,7 +229,35 @@ public class CreateServer extends Application
 
     public static void main(String[] args)
     {
-        launch(args);
+
+        new Thread(() ->
+        {
+            ServerSocket serverSocket = null;
+            try {
+                serverSocket = new ServerSocket(8888);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+                try
+                {
+                    socket = serverSocket.accept();
+                    System.out.println("Connected");
+                    Client client = new Client(name, socket);
+                    ClientHandler clientHandler = new ClientHandler(client);
+                    clients.execute(clientHandler);
+                    System.out.println(clientHandler.name);
+                }
+                catch (IOException e)
+                {
+                    e.printStackTrace();
+                }
+
+        }).start();
+       launch(args);
+
+
+
     }
 }
 
