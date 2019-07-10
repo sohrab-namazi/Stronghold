@@ -98,9 +98,10 @@ public class JoinServer extends Application
                     {
                             try
                             {
+                                Socket socket = new Socket(CreateServer.ip, 8888);
+                                in = new DataInputStream(socket.getInputStream());
                                 String ip = in.readUTF();
                                 System.out.println(ip);
-                                Socket socket = new Socket(CreateServer.ip, 8888);
                                 Client client = new Client(name, socket);
                                 ClientHandler clientHandler = new ClientHandler(client);
                                 System.out.println(clientHandler.name);
