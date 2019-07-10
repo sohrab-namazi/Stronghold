@@ -114,6 +114,7 @@ public class CreateServer extends Application
                 try
                 {
                     socket = new Socket(ip, 8888);
+                    out = new DataOutputStream(socket.getOutputStream());
                     out.writeUTF(String.valueOf(ip));
                 }
                 catch (IOException e)
