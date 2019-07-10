@@ -86,7 +86,7 @@ public class CreateServer extends Application
 
             try {
                 ip = InetAddress.getLocalHost();
-                txtFld1.setText(String.valueOf(ip));
+                txtFld1.setText("192.168.1.4");
             }
             catch (Exception e)
             {
@@ -113,7 +113,7 @@ public class CreateServer extends Application
                 waitingStage.show();
                 try
                 {
-                    socket = new Socket(ip, 8888);
+                    socket = new Socket("localhost", 8888);
                     out = new DataOutputStream(socket.getOutputStream());
                     out.writeUTF(String.valueOf(ip));
                 }

@@ -73,7 +73,7 @@ public class JoinServer extends Application
             {
                 String name = txtFld2.getText();
                 System.out.println((CreateServer.ip));
-                if (txtFld1.getText().equals(CreateServer.ip))
+                if (txtFld1.getText().equals("192.168.1.4"))
                 {
                     // Creating a stage for error.
                     Stage stageS = new Stage();
@@ -98,10 +98,7 @@ public class JoinServer extends Application
                     {
                             try
                             {
-                                Socket socket = new Socket(CreateServer.ip, 8888);
-                                in = new DataInputStream(socket.getInputStream());
-                                String ip = in.readUTF();
-                                System.out.println(ip);
+                                Socket socket = new Socket("localhost", 8888);
                                 Client client = new Client(name, socket);
                                 ClientHandler clientHandler = new ClientHandler(client);
                                 System.out.println(clientHandler.name);
